@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Sentimentos | Marketing</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header class="site-header">
+        <h1>Dashboard de Análise de Sentimento</h1>
+        <p>Identificação rápida de comentários de clientes utilizando PLN</p>
+    </header>
+
+    <main class="container">
+        <section class="form-section">
+            <h2>Novo Comentário</h2>
+            <form action="/" method="POST" class="sentiment-form">
+                <label for="comment">Digite o feedback do cliente:</label>
+                <textarea 
+                    id="comment" 
+                    name="comment" 
+                    rows="4" 
+                    placeholder="Ex: O produto chegou dentro do prazo e a qualidade é fantástica!" 
+                    required></textarea>
+                <button type="submit">Analisar Comentário</button>
+            </form>
+        </section>
+
+        <section class="results-section">
+            <h2>Histórico de Feedbacks</h2>
+            {% if comments %}
+                <ul class="comment-list">
+                    {% for item in comments %}
+                        <li class="comment-card {{ item[2]|lower }}">
+                            <div class="comment-header">
+                                <span class="badge {{ item[2]|lower }}">{{ item[2] }}</span>
+                                <time datetime="{{ item[4] }}">{{ item[4] }}</time>
+                            </div>
+                            <p class="comment-text">"{{ item[1] }}"</p>
+                            <small class="score">Pontuação de polaridade: {{ item[3] }}</small>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="empty-state">Nenhum comentário analisado ainda.</p>
+            {% endif %}
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2026 Sistema de Análise de Sentimentos. Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
